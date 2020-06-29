@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -35,7 +36,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     }
 
     // View lookup cache
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView ivCover;
         public TextView tvTitle;
         public TextView tvAuthor;
@@ -55,6 +56,17 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                     clickListener.onItemClick(itemView, getAdapterPosition());
                 }
             });
+        }
+
+        // Handles the row being being clicked
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition(); // gets item position
+            if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
+                Book book = mBooks.get(position);
+                // We can access the data within the views
+                Toast.makeText(mContext, book.getTitle(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
